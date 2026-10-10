@@ -27,15 +27,18 @@ That produced three problems the whole project is built around:
 
 ## How it works
 
+```mermaid
+flowchart LR
+    D["Employee<br/>Draft"] -->|submit| A{"Approver<br/>stage 1"}
+    A -->|approve| B{"Accounting<br/>stage 2"}
+    B -->|approve| E["Export<br/>Monthly CSV for NetSuite import"]
+    A -->|return for changes| D
+    B -->|return for changes| D
+    A -->|reject| R(["Rejected (final)"])
+    B -->|reject| R
 ```
-Employee            Approver (stage 1)         Accounting (stage 2)        Export
---------            ------------------         --------------------        ------
-Draft --submit-->   Approve -------------->    Approve -------------->     Monthly CSV
-  ^                 Return for changes --+     Return for changes --+      -> NetSuite import
-  |                 Reject (final)       |     Reject (final)       |
-  +--------------------------------------+--------------------------+
-          a return from accounting goes through stage 1 again
-```
+
+A return from accounting goes through stage 1 again.
 
 - **The unit is a single expense**, not a monthly report. Reports only appear at export time, grouped by employee and month, because that is how NetSuite structures an expense report: one header plus line items.
 - **The employee picks their approver.** Project coordinators change often, so approval is not hard-wired to projects.
