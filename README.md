@@ -28,12 +28,12 @@ That produced three problems the whole project is built around:
 ## How it works
 
 ```
-Employee            Approver (stage 1)        Accounting (stage 2)        Export
-────────            ──────────────────        ────────────────────        ──────
-Draft  ──submit──▶  Approve ─────────────▶   Approve ─────────────▶     Monthly CSV
-  ▲                 Return for changes ─┐    Return for changes ─┐       → NetSuite import
-  │                 Reject (final)      │    Reject (final)      │
-  └─────────────────────────────────────┴────────────────────────┘
+Employee            Approver (stage 1)         Accounting (stage 2)        Export
+--------            ------------------         --------------------        ------
+Draft --submit-->   Approve -------------->    Approve -------------->     Monthly CSV
+  ^                 Return for changes --+     Return for changes --+      -> NetSuite import
+  |                 Reject (final)       |     Reject (final)       |
+  +--------------------------------------+--------------------------+
           a return from accounting goes through stage 1 again
 ```
 
