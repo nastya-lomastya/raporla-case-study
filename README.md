@@ -56,12 +56,17 @@ A return from accounting goes through stage 1 again.
 - **Duplicate warning** when the same vendor, document number and amount already exist. It is a warning, not a block, because two identical receipts can be legitimate.
 
 ### Approval and history
+
 - **Append-only history.** Every action is a new row in an event table, and the database itself refuses any `UPDATE` or `DELETE` on it. The triggers are statement-level, so even an update that matches zero rows is rejected.
 - **Separation of duties at the database level:** a person cannot approve their own expense.
 - **A return from accounting goes back through the first stage.** While fixing one thing, the employee may change the project or the amount, and the first approval covered the old values. One extra step is cheaper than an approval that has quietly gone stale.
 - **An expense can be withdrawn** back to draft until anyone has made a decision on it.
 - **Name snapshots at submission.** If a project is renamed six months later, an approved expense still shows the name the approver saw.
 - **Expense numbers** (`EXP-2026-0001`) are issued at submission, never change, and count up within the year of the *expense date*. A December expense filed in January stays in December's series, matching how NetSuite groups it. The counter increments inside the submit transaction, so two simultaneous submissions can't get the same number.
+
+<p align="center">
+  <img src="screenrecording.gif" alt="Raporla on a phone: filing an expense and sending it for approval" width="300">
+</p>
 
 ### Export to NetSuite (CSV)
 - **One file per calendar month.** Each employee's lines share a stable external ID per month, so re-importing the same file updates the records instead of duplicating them. The server enforces whole months, since half a month under the same external ID could overwrite the other half.
